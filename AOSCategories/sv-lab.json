@@ -1,0 +1,24 @@
+{
+  "virtualLab" : [ {
+    "id" : "virtual-lab:262461638057985",
+    "displayName" : "REST Lab",
+    "applicationModelId" : "AOSCategoriesApplicationModel",
+    "connector" : [ {
+      "id" : "httpProxyConnector",
+      "properties" : {
+        "bindPort" : 9000
+      },
+      "connectorType" : "httpProxy"
+    } ],
+    "virtualServiceInstance" : [ {
+      "virtualServiceId" : "CategoriesInterface",
+      "serviceMode" : "SIMULATE_SERVICE",
+      "endpoints" : [ {
+        "properties" : {
+          "httpServiceUrl" : "http://nimbusserver:8000/catalog/api/v1/categories"
+        },
+        "connectorId" : "httpProxyConnector"
+      } ]
+    } ]
+  } ]
+}

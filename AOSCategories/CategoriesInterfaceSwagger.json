@@ -1,0 +1,60 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Decompiled from VSL ServiceInterface"
+  },
+  "paths": {
+    "": {
+      "get": {
+        "consumes": [
+            "application/json"
+        ],
+        "produces": [
+            "application/json"
+        ],
+        "responses": [
+          {
+            "200": {
+              "description": "Status code 200."
+            }
+          }
+        ]
+      }
+    },
+    "/attributes": {
+      "get": {
+        "consumes": [
+            "application/json"
+        ],
+        "produces": [
+            "application/json"
+        ],
+        "responses": [
+          {
+            "200": {
+              "description": "Status code 200."
+            }
+          }
+        ]
+      }
+    },
+    "/all_data": {
+      "get": {
+        "consumes": [
+            "application/json"
+        ],
+        "produces": [
+            "application/json"
+        ],
+        "responses": [
+          {
+            "200": {
+              "description": "Status code 200."
+            }
+          }
+        ]
+      }
+    }
+  }
+}
