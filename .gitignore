@@ -1,0 +1,17 @@
+#LeanFT ignore section
+RunResults/
+Runs/
+out/
+target/
+workspace.xml
+.idea/
+/bin
+/releases
+/maven
+/build/
+/repository/
+/.settings
+/test-output/
+/img
+/dependencies
+appmodels/
