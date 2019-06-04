@@ -22,13 +22,17 @@ import java.util.Locale;
 
 public class LeanFtTest extends UnitTestClassBase {
     Browser browser;
-    Boolean useProxy = true;
-    //String proxyAddress = "http://localhost:9000";
+    String isProxy = System.getProperty("useProxy");
+    Boolean useProxy = false;
     AOS_Model model;
-    BrowserType browserType = BrowserType.CHROME;
+    BrowserType browserType = BrowserType.FIREFOX;
+    double EXPECTED_PRICE = 179.99;
 
     @BeforeClass
     public void beforeClass() throws Exception {
+        useProxy = (isProxy.equals("true")) ? true : false;
+        Reporter.reportEvent("Is this a virtualized service test?", useProxy?"Yes":"No");
+        System.out.println("useProxy: " + useProxy);
     }
 
     @AfterClass
@@ -41,7 +45,8 @@ public class LeanFtTest extends UnitTestClassBase {
         browserDescription.setType(browserType);
 
         if (useProxy)
-            browserDescription.set("profile_proxy", Desktop.getSvInfo().getSvHttpProxy()); // ("http://localhost:9000"
+            browserDescription.set("profile_proxy", Desktop.getSvInfo().getSvHttpProxy()); // ("http://localhost:9000")
+        System.out.println("profile_proxy: "+ browserDescription.get("profile_proxy"));
 
         browser = BrowserFactory.launch(browserDescription);
         model = new AOS_Model(browser);
@@ -53,7 +58,7 @@ public class LeanFtTest extends UnitTestClassBase {
     }
 
     @Test
-    public void test() throws GeneralLeanFtException, InterruptedException, ReportException {
+    public void test() throws GeneralLeanFtException, ReportException {
         // Navigate to the website
         browser.navigate("http://nimbusserver.aos.com:8000");
         browser.sync();
@@ -64,13 +69,15 @@ public class LeanFtTest extends UnitTestClassBase {
         browser.sync();
         model.AdvantageShoppingPage().QuantityEditField().setValue("3");    // Set "3" in the amount field
 
-        comparePrice(179.99, model.AdvantageShoppingPage().ActualLaptopPriceWebElement());      // Compare the
+        comparePrice(EXPECTED_PRICE, model.AdvantageShoppingPage().ActualLaptopPriceWebElement());      // Compare the
 
         model.AdvantageShoppingPage().SaveToCartButton().highlight();       // Highlight the Save to Cart object
         model.AdvantageShoppingPage().SaveToCartButton().click();           // Click the Save to Cart object
 
-        Thread.sleep(5000); // just wait for 5 seconds          // Wait for 5 seconds before exiting test
+        windowSync(5000); // just wait for 5 seconds          // Wait for 5 seconds before exiting test
     }
+
+
 
     /*
     * Compare an expected price to an actual price - taken from the object passed
@@ -86,7 +93,8 @@ public class LeanFtTest extends UnitTestClassBase {
                     "Comparing the actual price to what's expected", screenCapture);
         } else {
             Reporter.reportEvent("Cannot parse price" ,
-                    "Something happened with parsing the string to double, check the original string (\""+webElement.getInnerText()+"\")",
+                    "Something happened with parsing the string to double, check the original string " +
+                            "(\""+webElement.getInnerText()+"\")",
                     Status.Failed, webElement.getSnapshot());
         }
     }
@@ -94,7 +102,7 @@ public class LeanFtTest extends UnitTestClassBase {
     /*
     * Format a price to a double.
     * Remove "$" sign and white spaces.
-    * Parse the "comma" format (x,xxx) to an actual number
+    * Parse the comma (",") - format (x,xxx) to an actual number
     */
     private double stringToDouble (String input)  {
         double retVal = 0;
@@ -107,6 +115,12 @@ public class LeanFtTest extends UnitTestClassBase {
         } catch (ParseException ex){
             ex.printStackTrace();
             return retVal;
-        } finally { return retVal; }
+        }
+        return retVal;
+    }
+
+    private void windowSync(int milliSeconds) {
+        try { Thread.sleep(milliSeconds); }
+        catch (InterruptedException e) { e.printStackTrace(); }
     }
 }
