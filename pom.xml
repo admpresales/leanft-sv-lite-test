@@ -49,6 +49,7 @@
 
     <properties>
         <test.src.dir>src/test/java</test.src.dir>
+        <is.proxy>-DuseProxy=false</is.proxy>
     </properties>
 
     <build>
@@ -57,22 +58,21 @@
         <plugins>
 			<!--Uncomment this section if you want to use the application model generator plugin-->
             <!--For details, see https://admhelp.microfocus.com/leanft/en/latest/HelpCenter/Content/HowTo/update-appModel.htm#hp-minitoc-item-3-->
-            <!--<plugin>-->
-                <!--<groupId>com.hpe.lft</groupId>-->
-                <!--<artifactId>appmodel-generator-mojo</artifactId>-->
-                <!--<version>14.52.0</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<phase>validate</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>generate</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
+            <plugin>
+                <groupId>com.hpe.lft</groupId>
+                <artifactId>appmodel-generator-mojo</artifactId>
+                <version>14.52.0</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
 					<!--<configuration>-->
                     <!--</configuration>-->
-                <!--</executions>-->
-            <!--</plugin>-->
-			
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -81,7 +81,6 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
@@ -100,6 +99,14 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <argLine>${is.proxy}</argLine>
+                </configuration>
             </plugin>
         </plugins>
         <pluginManagement>
@@ -144,6 +151,12 @@
             <id>leanft-tests</id>
             <properties>
                 <test.src.dir>src/main/java</test.src.dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>Run SV Test</id>
+            <properties>
+                <is.proxy>-DuseProxy=true</is.proxy>
             </properties>
         </profile>
     </profiles>
