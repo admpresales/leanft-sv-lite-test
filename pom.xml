@@ -154,7 +154,7 @@
             </properties>
         </profile>
         <profile>
-            <id>Run SV Test</id>
+            <id>SV Test</id>
             <properties>
                 <is.proxy>-DuseProxy=true</is.proxy>
             </properties>

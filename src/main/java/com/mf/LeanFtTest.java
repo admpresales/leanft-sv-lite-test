@@ -25,7 +25,7 @@ public class LeanFtTest extends UnitTestClassBase {
     String isProxy = System.getProperty("useProxy");
     Boolean useProxy = false;
     AOS_Model model;
-    BrowserType browserType = BrowserType.FIREFOX;
+    BrowserType browserType = BrowserType.CHROME;
     double EXPECTED_PRICE = 179.99;
 
     @BeforeClass
@@ -45,15 +45,18 @@ public class LeanFtTest extends UnitTestClassBase {
         browserDescription.setType(browserType);
 
         if (useProxy)
-            browserDescription.set("profile_proxy", Desktop.getSvInfo().getSvHttpProxy()); // ("http://localhost:9000")
-        System.out.println("profile_proxy: "+ browserDescription.get("profile_proxy"));
+            browserDescription.set("profile_proxy", "http://localhost:9000"); // ()Desktop.getSvInfo().getSvHttpProxy()
 
+        browserDescription.set("profile", true);        // always use a separate browser profile
         browser = BrowserFactory.launch(browserDescription);
         model = new AOS_Model(browser);
     }
 
     @AfterMethod
     public void afterMethod() throws Exception {
+        browser.clearCache();
+        browser.deleteCookies();
+        windowSync(2000); // just wait a few seconds before closing browser and exiting test
         browser.close();
     }
 
@@ -68,13 +71,10 @@ public class LeanFtTest extends UnitTestClassBase {
         model.AdvantageShoppingPage().PinkLaptopWebElement().click();       // Select the pink laptop
         browser.sync();
         model.AdvantageShoppingPage().QuantityEditField().setValue("3");    // Set "3" in the amount field
-
-        comparePrice(EXPECTED_PRICE, model.AdvantageShoppingPage().ActualLaptopPriceWebElement());      // Compare the
+        comparePrice(EXPECTED_PRICE, model.AdvantageShoppingPage().ActualLaptopPriceWebElement());      // Compare price
 
         model.AdvantageShoppingPage().SaveToCartButton().highlight();       // Highlight the Save to Cart object
         model.AdvantageShoppingPage().SaveToCartButton().click();           // Click the Save to Cart object
-
-        windowSync(5000); // just wait for 5 seconds          // Wait for 5 seconds before exiting test
     }
 
 
