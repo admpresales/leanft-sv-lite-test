@@ -6,7 +6,7 @@
         <object type="Page" technology="Web">
             <name> Advantage Shopping</name>
             <codeName>AdvantageShoppingPage_old</codeName>
-            <description></description>
+            <description>This is an old object</description>
             <identification/>
             <children>
                 <object type="Link" technology="Web">

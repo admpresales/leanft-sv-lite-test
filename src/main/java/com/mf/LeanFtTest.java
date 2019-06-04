@@ -1,7 +1,5 @@
 package com.mf;
 
-import com.hp.lft.report.Status;
-import com.hp.lft.sdk.SvInfo;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -9,9 +7,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import com.hp.lft.sdk.GeneralLeanFtException;
 import com.hp.lft.sdk.web.*;
-import com.hp.lft.verifications.*;
+import com.hp.lft.verifications.Verify;
 import com.hp.lft.report.Reporter;
 import com.hp.lft.report.ReportException;
+import com.hp.lft.report.Status;
 import com.hp.lft.sdk.Desktop;
 import unittesting.*;
 
@@ -45,7 +44,7 @@ public class LeanFtTest extends UnitTestClassBase {
         browserDescription.setType(browserType);
 
         if (useProxy)
-            browserDescription.set("profile_proxy", "http://localhost:9000"); // ()Desktop.getSvInfo().getSvHttpProxy()
+            browserDescription.set("profile_proxy", Desktop.getSvInfo().getSvHttpProxy()); // "http://localhost:9000"
 
         browserDescription.set("profile", true);        // always use a separate browser profile
         browser = BrowserFactory.launch(browserDescription);
