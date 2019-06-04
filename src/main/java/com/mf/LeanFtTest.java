@@ -30,8 +30,7 @@ public class LeanFtTest extends UnitTestClassBase {
     @BeforeClass
     public void beforeClass() throws Exception {
         useProxy = (isProxy.equals("true")) ? true : false;
-        Reporter.reportEvent("Is this a virtualized service test?", useProxy?"Yes":"No");
-        System.out.println("useProxy: " + useProxy);
+        Reporter.reportEvent("Is this a virtualized service test?", useProxy.toString());
     }
 
     @AfterClass
