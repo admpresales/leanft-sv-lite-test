@@ -54,7 +54,7 @@ public class LeanFtTest extends UnitTestClassBase {
     public void afterMethod() throws Exception {
         browser.clearCache();
         browser.deleteCookies();
-        windowSync(2000); // just wait a few seconds before closing browser and exiting test
+        windowSync(2000); // wait a few seconds before closing browser and exiting test
         browser.close();
     }
 
